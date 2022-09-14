@@ -44,7 +44,7 @@ class King(Piece):
             board.castle("white queen's side")
             return True
         elif (endR == 0 and endC == 6 and not self.hasMoved and
-              (self.color == "white" and isinstance(board.get_piece(0, 7), Rook) and
+              (self.color == "black" and isinstance(board.get_piece(0, 7), Rook) and
                not board.get_piece(0, 7).hasMoved) and
               isinstance(board.get_piece(0, 6), Empty) and isinstance(board.get_piece(0, 5), Empty) and
               not self.vulnerable(0, 4, board) and not self.vulnerable(0, 5, board) and not self.vulnerable(0, 6, board) and 
@@ -52,7 +52,7 @@ class King(Piece):
             board.castle("black king's side")
             return True
         elif (endR == 0 and endC == 2 and not self.hasMoved and
-              (self.color == "white" and isinstance(board.get_piece(0, 0), Rook) and
+              (self.color == "black" and isinstance(board.get_piece(0, 0), Rook) and
                not board.get_piece(0, 0).hasMoved) and
               isinstance(board.get_piece(0, 1), Empty) and isinstance(board.get_piece(0, 2), Empty) and
               isinstance(board.get_piece(0, 3), Empty) and

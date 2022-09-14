@@ -8,7 +8,7 @@ class Empty(Piece):
 
     # can't move
     def can_move(self, move, board):
-        print("This space is Empty")
+        # print("This space is Empty")
         return False
 
     # toString function

@@ -1,10 +1,14 @@
 from chess import Chess
+from gui import GUI
 
 def main():
-    chess = Chess()
-    print(chess.board.__str__())
+    gui = GUI()
+    gui.gameLoop()
 
-    chess.game_loop()
+    # chess = Chess()
+    # print(chess.board.__str__())
+
+    # chess.game_loop()
     print("Program Complete")
 
 if __name__=='__main__':

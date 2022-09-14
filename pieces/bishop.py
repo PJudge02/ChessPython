@@ -9,8 +9,8 @@ class Bishop(Piece):
     def can_move(self, move, board):
         endR = move.end_row
         endC = move.end_col
-        startR = self.row
-        startC = self.col
+        startR = move.start_row
+        startC = move.start_col
         # general parameter check
         if endR == startR or endC == startC or abs(startR - endR) != abs(startC - endC):
             return False
