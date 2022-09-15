@@ -37,33 +37,35 @@ class Pawn(Piece):
     def can_move(self, move, board):
         endR = move.end_row
         endC = move.end_col
+        startR = move.start_row
+        startC = move.start_col
         color = self.color
 
         # up-2, up1, take diagnol, en passant, false
         if (
                 isinstance(board.get_piece(endR, endC), Empty) and
                 self.hasMoved is False and
-                self.col == endC and
+                startC == endC and
                 ((color == "white" and endR == 4) or (color == "black" and endR == 3))
         ):
             self.en_passant_move(endR, endC, board)
             return True
         elif (
-                isinstance(board.get_piece(endR, endC), Empty) and self.col == endC and
-                ((color == "white" and endR == self.row - 1) or (color == "black" and endR == self.row + 1))):
+                isinstance(board.get_piece(endR, endC), Empty) and startC == endC and
+                ((color == "white" and endR ==  startR - 1) or (color == "black" and endR ==  startR + 1))):
             return True
         elif (
                 board.get_piece(endR, endC).color != "n/a" and
                 board.get_piece(endR, endC).color != color and
-                (self.col + 1 == endC or self.col - 1 == endC) and
-                ((color == "white" and endR == self.row - 1) or
-                 (color == "black" and endR == self.row + 1))
+                (startC + 1 == endC or startC - 1 == endC) and
+                ((color == "white" and endR ==  startR - 1) or
+                 (color == "black" and endR ==  startR + 1))
         ):
             return True
         elif (
-                (self.en_passant == 1 and endC == self.col - 1) or
-                (self.en_passant == 2 and endC == self.col + 1) and
-                ((color == "white" and endR == self.row - 1) or (color == "black" and endR == self.row + 1))
+                (self.en_passant == 1 and endC == startC- 1) or
+                (self.en_passant == 2 and endC == startC + 1) and
+                ((color == "white" and endR ==  startR - 1) or (color == "black" and endR ==  startR + 1))
         ):
             return True
         return False

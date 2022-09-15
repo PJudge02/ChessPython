@@ -1,4 +1,6 @@
 import enum
+from operator import indexOf
+from string import whitespace
 from tabnanny import check
 from colorama import Fore, Style
 from pieces.empty import Empty
@@ -74,7 +76,7 @@ class Board:
     # determine if the player's king is in check
     def in_check(self, white_turn):
         king = self.white_pieces[4] if white_turn else self.black_pieces[4]
-        print(f"{king.row} row & {king.col} col & {king.color} color")
+        # print(f"{king.row} row & {king.col} col & {king.color} color")
         return king.vulnerable(king.row, king.col, self)
     
     # determines if the game is a stalemate
@@ -140,6 +142,8 @@ class Board:
 
     # moves a piece to the end location and sets the old square empty
     def move_piece(self, move, white_turn):
+        if not self.board[move.start_row][move.start_col].can_move(move, self):
+            return Result.ILLEGAL
         self.set_undo(move)
         if len(self.en_passant) != 0:
             if self.board[move.start_row][move.start_col].color == "white":
@@ -147,20 +151,15 @@ class Board:
             else:
                 self.board[move.end_row - 1][move.end_col] = self.empty
 
-        if not self.board[move.start_row][move.start_col].can_move(move, self):
-            print("ERROR")
-            return Result.ILLEGAL
-
-        self.board[move.start_row][move.start_col].piece_move(move.end_row, move.end_col)
+        self.board[move.start_row][move.start_col].piece_move(move.end_row, move.end_col)#---------------
         self.board[move.end_row][move.end_col] = self.board[move.start_row][move.start_col]
         self.board[move.start_row][move.start_col] = self.empty
-        print(self)
 
         # moving into check
         if self.in_check(white_turn):
-            print("HELLO---------------------")
+            # print("HELLO---------------------")
             self.undo()
-            print("")
+            # print("")
             return Result.CHECK
 
         if len(self.en_passant) != 0:
@@ -194,10 +193,26 @@ class Board:
             self.board[0][3] = self.board[0][0]
             self.board[0][0] = self.empty
 
+    # handles promoting a piece
+    def pawn_promotion(self, color, piece, newPiece):
+        if (color == "white"):
+            arr = self.white_pieces
+        else:
+            arr = self.black_pieces
+        position = arr.index(piece)
+        arr[position] = newPiece
+        self.board[piece.row][piece.col] = newPiece
+
+        # for pieces in arr:
+        #     print(pieces)
+
+        
+
     # sets pieces and squares in case undo is needed
     def set_undo(self, move):
         self.old_move.define_move(move.start_row, move.start_col, move.end_row, move.end_col)
         self.past_piece = self.board[move.end_row][move.end_col]
+        # print(f"Past piece is {self.past_piece}")
         if(self.past_piece.color == "black"):
             self.removal_piece_index = self.black_pieces.index(self.board[move.end_row][move.end_col])
             self.black_pieces[self.removal_piece_index] = (
@@ -208,8 +223,8 @@ class Board:
             self.white_pieces[self.removal_piece_index] = (
                 Empty(move.end_row, move.end_col,"white")
             )
-            # self.black_pieces.index(self.board[move.end_row][move.end_col])
-            # self.black_pieces.remove(self.past_piece)
+            # for i in self.white_pieces:
+            #     print(i)
 
 
     # if a move wasn't legal (leaving the king in check) then
@@ -219,11 +234,12 @@ class Board:
                 self.board[self.old_move.end_row + 1][self.old_move.end_col] = self.past_piece
             else:
                 self.board[self.old_move.end_row - 1][self.old_move.end_col] = self.past_piece
-            print("undo")
         else:
+
             self.board[self.old_move.start_row][self.old_move.start_col] = self.board[self.old_move.end_row][
                 self.old_move.end_col]
             self.board[self.old_move.end_row][self.old_move.end_col] = self.past_piece
+            # print(f"Comparing the square you were moving into and the square you were at is: {self.board[self.old_move.end_row][self.old_move.end_col] == self.board[self.old_move.start_row][self.old_move.start_col]}")
         if self.past_piece.color == "white":
             self.white_pieces[self.removal_piece_index] = self.past_piece
         elif self.past_piece.color == "black":

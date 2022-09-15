@@ -38,7 +38,7 @@ class Piece(ABC):
             if is_in_check:
                 checking = piece
                 break
-        print(board)
+        # print(board)
         return checking
 
     # toString method (is abstract)

@@ -71,7 +71,7 @@ class Chess:
                 # if the move was successful
                 case Result.OK:
                     self.whiteToMove = not self.whiteToMove
-                    print(self.board.__str__())
+                    # print(self.board.__str__())
                 case Result.ILLEGAL:
                     print(Fore.RED + "That was an invalid move, please make a legal move" + Style.RESET_ALL)
                 case Result.CHECK:
@@ -79,7 +79,7 @@ class Chess:
                 case Result.PROMOTE:
                     self.promote_pawn(piece)
                     self.whiteToMove = not self.whiteToMove
-                    print(self.board.__str__())
+                    # print(self.board.__str__())
                 case Result.CHECKMATE:
                     print(Fore.RED + "Checkmate! " + "White wins!" if self.whiteToMove else "Black wins!" + Style.RESET_ALL)
                     break

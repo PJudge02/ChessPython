@@ -1,6 +1,7 @@
 from chess import Chess
 
 def main():
+
     chess = Chess()
     print(chess.board.__str__())
 
