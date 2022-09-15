@@ -1,3 +1,4 @@
+from ast import Param
 from turtle import reset
 import pygame
 from board import Board, Result
@@ -56,13 +57,16 @@ W_PAWN = svgh.load_and_scale_svg('images/pieces/white_pawn.svg', PIECE_SCALING)
 
 
 class GUI():
-
+    # constructor
     def __init__(self) -> None:
         self.board = Board()
         self.move = Move()
         self.whiteToMove = True
 
-    def draw_window(self, board):
+    """
+    @param board: takes in object board state
+    """
+    def draw_window(self, board) -> None: 
         global SQUARE_SEL
         WIN.fill(WHITE)
         for row in range(8):
@@ -116,11 +120,16 @@ class GUI():
 
         pygame.display.update()
 
+    # resets squares clicked 
     def reset_SEL(self) -> None:
         global SQUARE_SEL
         SQUARE_SEL[0] = -1
         SQUARE_SEL[1] = -1
 
+    """
+    @param piece: type of object must be Pawn 
+    this function creates calls pawn_promotion class to create a gui to select a piece
+    """
     def promote_pawn(self, piece: Pawn) -> None:
         pawn_p = pp()
         choice = pawn_p.loop()
@@ -138,7 +147,7 @@ class GUI():
             case _:
                 print(Fore.RED + "Invalid input!" + Style.RESET_ALL)
                 self.promote_pawn(piece)
-
+    # daw window is called in a loop in this function
     def gameLoop(self) -> None:
         # board = Board()
         # move = Move()
