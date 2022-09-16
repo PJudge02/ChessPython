@@ -149,9 +149,6 @@ class GUI():
                 self.promote_pawn(piece)
     # daw window is called in a loop in this function
     def gameLoop(self) -> None:
-        # board = Board()
-        # move = Move()
-        # white_to_move = True
         global MOUSE_CLICKED
 
         play = True
@@ -204,7 +201,3 @@ class GUI():
                     
 
             self.draw_window(self.board)
-
-# gui = GUI()
-# GUI.__main__(GUI)
-        # pygame.draw.Rect()
